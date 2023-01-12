@@ -1,0 +1,7 @@
+[workspace]
+members = [
+    "backend",
+    "frontend",
+    "common",
+]
+default-members = [ "backend" ] # used for `cargo build`
