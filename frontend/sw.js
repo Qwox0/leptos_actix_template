@@ -1,4 +1,4 @@
-const cacheName = "site-cache";
+const cacheName = "qwox-testPWA";
 
 const contentToCache = [];
 
