@@ -16,14 +16,15 @@ cleanup() {
 trap cleanup SIGTERM
 trap cleanup SIGINT
 
-cargo watch -x "run" &
-ACTIX_PROC=$!
-children+=($ACTIX_PROC)
-
 pushd ./frontend;
 trunk watch &
 children+=($!)
 popd;
+
+cargo watch -x "run" &
+ACTIX_PROC=$!
+children+=($ACTIX_PROC)
+
 
 wait $ACTIX_PROC
 echo "Finished dev script"

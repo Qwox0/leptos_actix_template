@@ -9,3 +9,4 @@ edition = "2021"
 common = { version = "0.1.0", path = "../common" }
 console_error_panic_hook = "0.1.7"
 leptos = "0.1.0"
+web-sys = { version = "0.3.60", features = ["Navigator"] }

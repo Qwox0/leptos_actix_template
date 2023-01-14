@@ -647,6 +647,7 @@ dependencies = [
  "common",
  "console_error_panic_hook",
  "leptos",
+ "web-sys",
 ]
 
 [[package]]

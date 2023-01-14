@@ -1,5 +1,7 @@
 use leptos::*;
 
+pub mod connection_status;
+
 /// A simple counter component.
 ///
 /// You can use doc comments like this to document your component.

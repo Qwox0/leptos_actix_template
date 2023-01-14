@@ -19,5 +19,7 @@ This Template has a Frontend in Leptos and Backend in Actix. This Template also 
 ## installation
 
 `rustup toolchain install nightly`
+
 `rustup default nightly`
+
 `rustup target add wasm32-unknown-unknown`
