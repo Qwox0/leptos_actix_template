@@ -5,3 +5,11 @@ members = [
     "common",
 ]
 default-members = [ "backend" ] # used for `cargo build`
+
+[workspace.package]
+name = "leptos_actix_template"
+version = "0.1.0"
+authors = ["Qwox"]
+
+[workspace.dependencies]
+anyhow = "1.0.68"

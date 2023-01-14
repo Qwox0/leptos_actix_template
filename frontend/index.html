@@ -1,8 +1,39 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<link data-trunk rel="rust" data-wasm-opt="z"/>
-		<link data-trunk rel="icon" type="image/ico" href="/public/favicon.ico"/>
-	</head>
-	<body></body>
+
+<head>
+    <meta charset="utf-8" />
+    <link data-trunk rel="scss" href="style.scss" />
+    <link data-trunk rel="copy-dir" href="assets/" />
+    <link data-trunk rel="copy-dir" href="icons" />
+    <link data-trunk rel="icon" type="image/ico" href="/public/favicon.ico" />
+
+    <link data-trunk rel="rust" data-wasm-opt="z" />
+    <link data-trunk rel="copy-file" href="sw.js" />
+    <link data-trunk rel="copy-file" href="pwa.webmanifest" />
+    <link rel="manifest" href="pwa.webmanifest" />
+    <title>Leptos Actix Template</title>
+    <script>
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", function () {
+                navigator.serviceWorker.register("/sw.js").then(
+                    function (registration) {
+                        // Registration was successful
+                        console.log(
+                            "ServiceWorker registration successful with scope: ",
+                            registration.scope
+                        );
+                    },
+                    function (err) {
+                        // registration failed :(
+                        console.log("ServiceWorker registration failed: ", err);
+                    }
+                );
+            });
+        }
+    </script>
+</head>
+
+<body></body>
+
 </html>
