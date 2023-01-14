@@ -1,0 +1,29 @@
+#!/bin/bash
+
+children=()
+
+cleanup() {
+    echo "Caught stop Signal. Stopping ${children[@]}"
+    for child in "${children[@]}"; do
+        kill -TERM "$child" 2>/dev/null
+    done
+}
+
+### Linux stop signals
+# SIGTERM: request stopping
+# SIGINT : stop process; cleanup possible; send by pressing Ctrl+C
+# SIGKILL: stop process; immediate
+trap cleanup SIGTERM
+trap cleanup SIGINT
+
+cargo watch -x "run" &
+ACTIX_PROC=$!
+children+=($ACTIX_PROC)
+
+pushd ./frontend;
+trunk watch &
+children+=($!)
+popd;
+
+wait $ACTIX_PROC
+echo "Finished dev script"
