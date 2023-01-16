@@ -1,0 +1,68 @@
+#!/bin/bash
+
+arg="$1"
+mode="DEV"
+if [[ $arg =~ "release" ]]; then # =~ regex
+    mode="RELEASE"
+fi
+
+log() {
+    echo "[RUN: $mode] $@"
+}
+
+########## proc cleanup
+children=()
+
+cleanup() {
+    log "Caught stop Signal. Stopping ${children[@]}"
+    for child in "${children[@]}"; do
+        kill -TERM "$child" 2>/dev/null
+    done
+}
+
+### Linux stop signals
+# SIGTERM: request stopping
+# SIGINT : stop process; cleanup possible; send by pressing Ctrl+C
+# SIGKILL: stop process; immediate
+trap cleanup SIGTERM
+trap cleanup SIGINT
+
+
+########## main
+
+if [ $mode == "DEV" ]; then
+    log "Running in development mode!"
+
+    #pushd ./frontend;
+    cd ./frontend
+    trunk watch &
+    children+=($!)
+    cd ..
+    #popd;
+
+    cargo watch -x "run" &
+    ACTIX_PROC=$!
+    children+=($ACTIX_PROC)
+
+    log "Started ${children[@]}"
+    ps -f "${children[@]}"
+
+    wait $ACTIX_PROC
+elif [ $mode == "RELEASE" ]; then
+    log "Running in release mode!"
+
+    log "Building frontend ..."
+    pushd ./frontend;
+    trunk build --release &
+    wait $!
+    popd;
+
+    log "Building backend ..."
+    cargo run --release &
+    ACTIX_PROC=$!
+    children+=($ACTIX_PROC)
+
+    wait $ACTIX_PROC
+fi
+
+log "Finished run script."
